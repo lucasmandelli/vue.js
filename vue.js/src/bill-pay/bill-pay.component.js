@@ -18,52 +18,50 @@ window.billPayComponent = Vue.extend({
 
         <h5 :class="{'cinza': status === false, 'verde': status === 0, 'vermelho': status > 0}">{{ status | statusGeneralPay }}</h5>
         
-        <h5>{{ total | currency 'R$ ' }}</h5>
+        <h5>{{ total | numberFormat 'pt-BR' }}</h5>
 
         <menu-component></menu-component>
         
         <router-view></router-view>
     `,
-    data: function () {
+    data() {
         return {
             title: "Contas a pagar",
             status: false,
             total: 0
         };
     },
-    created: function() {
+    created() {
         this.updateStatus();
         this.updateTotal();
     },
     methods: {
-        calculateStatus: function(bills) {
+        calculateStatus(bills) {
             if(!bills.length) {
                 this.status = false;
             }
 
-            var count = 0;
-            for (var i in bills) {
+            let count = 0;
+            for (let i in bills) {
                 if (!bills[i].done) {
                     count++;
                 }
             }
             this.status = count;
         },
-        updateStatus: function() {
-            var self = this;
-            BillPay.query().then(function(response){
-                self.calculateStatus(response.data);
+        updateStatus() {
+            BillPay.query().then((response) => {
+                this.calculateStatus(response.data);
             });
         },
-        updateTotal: function() {
-            var self = this;
-            BillPay.total().then(function(response){
-                self.total = response.data.total;
+        updateTotal() {
+            BillPay.total().then((response) => {
+                this.total = response.data.total;
             });
         }
     },
     events: {
-        'change-info': function() {
+        'change-info'() {
             this.updateStatus();
             this.updateTotal();
         }

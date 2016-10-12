@@ -11,11 +11,11 @@ window.dashboardComponent = Vue.extend({
             <tbody>
                 <tr>
                     <td>A receber</td>
-                    <td>{{ valueReceived | currency 'R$ ' 2 }}</td>
+                    <td>{{ valueReceived | numberFormat 'pt-BR' }}</td>
                 </tr>
                 <tr>
                     <td>A pagar</td>
-                    <td>{{ valuePaid | currency 'R$ ' 2 }}</td>
+                    <td>{{ valuePaid | numberFormat 'pt-BR' }}</td>
                 </tr>
             </tbody>
         </table>
@@ -24,20 +24,20 @@ window.dashboardComponent = Vue.extend({
             <thead>
             <tr>
                 <th>TOTAL</th>
-                <th>{{ valueReceived - valuePaid | currency 'R$ ' 2 }}</th>
+                <th>{{ valueReceived - valuePaid | numberFormat 'pt-BR' }}</th>
             </tr>
             </thead>
         </table>
     `,
-    data: function() {
+    data() {
         return {
             title: "Dashboard",
             valueReceived: 0,
             valuePaid: 0
         };
     },
-    created: function() {
-        var self = this;
+    created() {
+        let self = this;
         BillPay.total().then(function(response){
             self.valuePaid = response.data.total;response.data;
         });

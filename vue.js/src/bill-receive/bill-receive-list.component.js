@@ -1,4 +1,4 @@
-window.billPayListComponent = Vue.extend({
+window.billReceiveListComponent = Vue.extend({
     template: `
         <table border="1" cellpadding="10">
             <thead>
@@ -14,36 +14,34 @@ window.billPayListComponent = Vue.extend({
             <tbody>
                 <tr v-for="(index, bill) in bills">
                     <td>{{ index + 1 }}</td>
-                    <td>{{ bill.date_due }}</td>
-                    <td>{{ bill.name }}</td>
-                    <td>{{ bill.value | currency 'R$ ' 2 }}</td>
-                    <td :class="{'verde': bill.done, 'vermelho': !bill.done}" >{{ bill.done | doneLabelPay }}</td>
+                    <td>{{ bill.date_due | dateFormat 'pt-BR' }}</td>
+                    <td>{{ bill.name | stringUpperLowerCase }}</td>
+                    <td>{{ bill.value  | numberFormat 'pt-BR' }}</td>
+                    <td :class="{'verde': bill.done, 'vermelho': !bill.done}" >{{ bill.done | doneLabelReceive }}</td>
                     <td>
-                        <a v-link="{ name: 'bill-pay.update', params: {id: bill.id} }">Editar</a>
+                        <a v-link="{ name: 'bill-receive.update', params: {id: bill.id} }">Editar</a>
                         <a href="#" @click.prevent="removeBill(bill)">Excluir</a>
                     </td>
                 </tr>
             </tbody>
         </table>
     `,
-    data: function() {
+    data() {
         return {
             bills: []
         };
     },
-    created: function() {
-        var self = this;
-        BillPay.query().then(function(response){
-            self.bills = response.data;
+    created() {
+        BillReceive.query().then((response) => {
+            this.bills = response.data;
         });
     },
     methods: {
-        removeBill: function(bill) {
+        removeBill(bill) {
             if(confirm('Deseja realmente apagar essa conta?')) {
-                var self = this;
-                BillPay.delete({id: bill.id}).then(function(response){
-                    self.bills.$remove(bill);
-                    self.$dispatch('change-info');
+                BillReceive.delete({id: bill.id}).then((response) => {
+                    this.bills.$remove(bill);
+                    this.$dispatch('change-info');
                 });
             }
         }
