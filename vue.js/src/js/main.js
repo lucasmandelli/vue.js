@@ -1,3 +1,14 @@
+import './bootstrap';
+import billComponent from './Bill.vue';
+import dashboardComponent from './Dashboard.vue';
+import billPayComponent from './bill-pay/BillPay.vue';
+import billPayListComponent from './bill-pay/BillPayList.vue';
+import billPayCreateComponent from './bill-pay/BillPayCreate.vue';
+import billReceiveComponent from './bill-receive/BillReceive.vue';
+import billReceiveListComponent from './bill-receive/BillReceiveList.vue';
+import billReceiveCreateComponent from './bill-receive/BillReceiveCreate.vue';
+
+let VueRouter = require('vue-router');
 let router = new VueRouter();
 router.map({
     '/': {

@@ -1,4 +1,4 @@
-class BillClass {
+export class BillClass {
     constructor(data = {}) {
         this.date_due = '';
         this.name = '';
@@ -26,11 +26,4 @@ class BillClass {
         }
         return dateDueObject.toISOString().split('T')[0];
     }
-}
-
-class ClassBillPay extends BillClass {
-
-}
-class ClassBillReceive extends BillClass {
-
-}
+};
